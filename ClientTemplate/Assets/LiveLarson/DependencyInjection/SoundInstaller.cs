@@ -1,22 +1,18 @@
-using LiveLarson.SoundService;
+using LiveLarson.SoundSystem;
 using UnityEngine;
 using Zenject;
 
 namespace LiveLarson.DependencyInjection
 {
-    public class SoundInstaller : MonoInstaller
+    public class SoundInstaller : MonoInstaller<SoundInstaller>
     {
         [SerializeField] private AudioSource bgmSource;
         [SerializeField] private AudioSource sfxSource;
         [SerializeField] private SoundSettings soundSettings;
-        
+
         public override void InstallBindings()
         {
-            Container.Bind(typeof(ISoundService)).To(typeof(SoundService.SoundService)).AsSingle().NonLazy();
-        }
-
-        private void InitializeServices()
-        {
+            Container.Bind<ISoundService>().To<SoundService>().AsSingle().WithArguments(bgmSource, sfxSource, soundSettings).NonLazy();
         }
     }
 }

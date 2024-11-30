@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LiveLarson.SoundService
+namespace LiveLarson.SoundSystem
 {
     [CreateAssetMenu(fileName = "SoundSettings", menuName = "Scriptable Objects/SoundSettings")]
     public class SoundSettings : ScriptableObject

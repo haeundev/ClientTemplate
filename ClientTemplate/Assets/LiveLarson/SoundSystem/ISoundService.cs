@@ -1,4 +1,4 @@
-namespace LiveLarson.SoundService
+namespace LiveLarson.SoundSystem
 {
     public interface ISoundService
     {
