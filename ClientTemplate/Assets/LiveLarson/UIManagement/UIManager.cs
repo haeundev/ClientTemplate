@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LiveLarson.Plugins.UIs;
 using UnityEngine;
 using Zenject;
 
@@ -7,13 +8,13 @@ namespace LiveLarson.UIManagement
 {
     public class UIManager : MonoBehaviour
     {
-        private Dictionary<Type, UIWindow> instantiatedWindows = new Dictionary<Type, UIWindow>();
-        private Dictionary<Type, UIWindow> prefabDictionary = new Dictionary<Type, UIWindow>();
+        private Dictionary<Type, UIWindow> _instantiatedWindows = new Dictionary<Type, UIWindow>();
+        private Dictionary<Type, UIWindow> _prefabDictionary = new Dictionary<Type, UIWindow>();
 
         [Inject]
         private void Construct(Dictionary<Type, UIWindow> prefabDict)
         {
-            prefabDictionary = prefabDict;
+            _prefabDictionary = prefabDict;
         }
 
         public void Open<T>() where T : UIWindow
@@ -21,13 +22,13 @@ namespace LiveLarson.UIManagement
             var type = typeof(T);
 
             // Check if the window is already instantiated
-            if (!instantiatedWindows.TryGetValue(type, out var window))
+            if (!_instantiatedWindows.TryGetValue(type, out var window))
             {
                 // Instantiate from prefab if not already instantiated
-                if (prefabDictionary.TryGetValue(type, out var prefab))
+                if (_prefabDictionary.TryGetValue(type, out var prefab))
                 {
                     window = Instantiate(prefab, transform); // Parent to UIManager
-                    instantiatedWindows[type] = window;
+                    _instantiatedWindows[type] = window;
                 }
                 else
                 {
@@ -43,7 +44,7 @@ namespace LiveLarson.UIManagement
         {
             var type = typeof(T);
 
-            if (instantiatedWindows.TryGetValue(type, out var window))
+            if (_instantiatedWindows.TryGetValue(type, out var window))
             {
                 window.Hide();
             }
